@@ -9,9 +9,6 @@ class Mdl_admin extends Model
     protected $useTimestamps = TRUE;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $allowedFields = ['username', 'password','level'];
-    function test(){
-        
-    }
+    protected $allowedFields = ['username', 'password','nama_depan','nama_belakang','level'];
 
 }
