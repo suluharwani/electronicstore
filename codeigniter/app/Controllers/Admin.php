@@ -13,35 +13,12 @@ class Admin extends BaseController
 	{
 
 		$userModel = new \App\Models\Mdl_admin();
+		$tokoModel = new \App\Models\Mdl_data_toko();
 		$jumlah_user = $userModel->countAll();
 		$form_validation = \Config\Services::validation();
 		$bcrypt = new Bcrypt();
 		$bcrypt_version = '2a';
-		if ($this->request->getPost("submit") == "submit") {
-			$form_validation->setRules([
-				'nama_depan' => 'required',
-				'nama_belakang' => 'required',
-				'username' => 'required',
-				'password' => 'required|min_length[4]|max_length[39]'
-			]);
-
-			if($form_validation->withRequest($this->request)->run() && $jumlah_user == 0){
-				$userdata = [
-					"nama_depan" => $_POST["nama_depan"],
-					"nama_belakang" =>  $_POST["nama_belakang"],
-					"username" =>  $_POST["username"],
-					"password" =>  $bcrypt->encrypt($_POST["password"],$bcrypt_version),
-					"nama_toko" =>  $_POST["nama_toko"],
-					"alamat_toko" =>  $_POST["alamat_toko"],
-					"level" => 1
-				];
-				$userModel->insert($userdata);
-				$session = session();
-				$session->setFlashData("success", "Successful Registration");
-
-				// return redirect()->to('/index.php/admin');
-			}
-		}
+		
 		// $coba = $user->findAll();
 		// dd($coba);
 		// $data = [
@@ -73,10 +50,51 @@ class Admin extends BaseController
 
 
 		if ($jumlah_user == 0) {
+			if ($this->request->getPost("submit") == "submit") {
+				$form_validation->setRules([
+					'nama_depan' => 'required',
+					'nama_belakang' => 'required',
+					'username' => 'required',
+					'password' => 'required|min_length[4]|max_length[39]'
+				]);
+	
+				if($form_validation->withRequest($this->request)->run() && $jumlah_user == 0){
+					$userdata = [
+						"nama_depan" => $_POST["nama_depan"],
+						"nama_belakang" =>  $_POST["nama_belakang"],
+						"username" =>  $_POST["username"],
+						"password" =>  $bcrypt->encrypt($_POST["password"],$bcrypt_version),
+						"level" => 1
+					];
+					$datatoko = [
+						"nama" =>  $_POST["nama_toko"],
+						"alamat" =>  $_POST["alamat_toko"],
+					];
+					$userModel->insert($userdata);
+					$tokoModel->insert($datatoko);
+					$session = session();
+					$session->setFlashData("success", "Successful Registration");
+					// return redirect()->to($_SERVER['REQUEST_URI'], 'refresh');
+					return redirect()->to(site_url().'index.php/admin');
+				}
+			}
 			return view('admin/reg.php');
 		} else {
-			return view('admin/login.php');
+			$data['title'] = 'Login';
+			if ($this->request->getPost("submit") == "submit") {
+				$form_validation->setRules([
+					'username' => 'required|max_length[39]',
+					'password' => 'required|min_length[4]|max_length[39]'
+				]);
+				if($form_validation->withRequest($this->request)->run()){
+					return redirect()->to('111');
+				}
+			}
+			return view('admin/login.php', $data);
+		
 		}
+		//login
+
 
 	}
 	function login(){
@@ -91,7 +109,7 @@ class Admin extends BaseController
 	function _level_admin(){
 
 	}
-	public function check_password(){
+	function check_password(){
 		$pass1 = $_POST['password'];
 		$pass2 = $_POST['confirm_password'];
 		if (strlen($pass1)>=40){
