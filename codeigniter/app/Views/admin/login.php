@@ -42,62 +42,67 @@
                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                   </div>
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4"><?if (isset($_SESSION['item'])) {
-                      echo "$_SESSION['item']";
-                    }?></h1>
-                  </div>
+                    <h1 class="h4 text-gray-900 mb-4">
+                      <?php if (session()->getFlashdata('gagal')) {?>
+                        <div class="alert alert-danger" role="alert">
+                          <?=session()->getFlashdata('gagal');?>
+                        </div>
+                      <?php
+                          }
+                      ?></h1>
+                    </div>
 
-                  <form class="user" method="post">
-                    <div class="form-group">
-                      <input type="text" class="form-control form-control-user"
-                      id="username" name="username" aria-describedby="emailHelp"
-                      placeholder="Username">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control form-control-user"
-                      id="password" name="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                        <!-- <label class="custom-control-label" for="customCheck">Remember
-                        Me</label> -->
+                    <form class="user" method="post">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-user"
+                        id="username" name="username" aria-describedby="emailHelp"
+                        placeholder="Username">
                       </div>
-                    </div>
-                    <button type="submit" name="submit" value="submit" class="btn btn-primary btn-user btn-block">
-                      Login
-                    </button>
-                    <hr>
-                </a>
-              </form>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
-              </div>
-              <div class="text-center">
-                <a class="small" href="register.html">Create an Account!</a>
+                      <div class="form-group">
+                        <input type="password" class="form-control form-control-user"
+                        id="password" name="password" placeholder="Password">
+                      </div>
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox small">
+                          <input type="checkbox" class="custom-control-input" id="customCheck">
+                          <!-- <label class="custom-control-label" for="customCheck">Remember
+                          Me</label> -->
+                        </div>
+                      </div>
+                      <button type="submit" name="submit" value="submit" class="btn btn-primary btn-user btn-block">
+                        Login
+                      </button>
+                      <hr>
+                    </a>
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="register.html">Create an Account!</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
+
     </div>
 
   </div>
 
-</div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="<?=base_url('assets/sbadmin')?>/vendor/jquery/jquery.min.js"></script>
+  <script src="<?=base_url('assets/sbadmin')?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-</div>
+  <!-- Core plugin JavaScript-->
+  <script src="<?=base_url('assets/sbadmin')?>/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Bootstrap core JavaScript-->
-<script src="<?=base_url('assets/sbadmin')?>/vendor/jquery/jquery.min.js"></script>
-<script src="<?=base_url('assets/sbadmin')?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="<?=base_url('assets/sbadmin')?>/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="<?=base_url('assets/sbadmin')?>/js/sb-admin-2.min.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="<?=base_url('assets/sbadmin')?>/js/sb-admin-2.min.js"></script>
 
 </body>
 

@@ -23,7 +23,8 @@ class Admin extends BaseController
 		$form_validation = \Config\Services::validation();
 		if ($this->_make_sure_is_admin()) {
 			//login == true
-			echo "halaman admin";
+			$data['title'] = "Dashboard";
+			echo view('admin/index.php', $data);
 			//end login == true
 		}else{
 			if ($jumlah_user == 0) {
@@ -84,7 +85,6 @@ class Admin extends BaseController
 					'status'=> TRUE
 				];
 				$this->session->set('login_data', $data_login);
-
 			}else{
 				$this->session->setFlashData("gagal", "Login Failed!");
 			}
