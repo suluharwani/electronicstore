@@ -15,15 +15,19 @@ class Admin extends BaseController
 		helper('form');
 
 	}
-	public function index()
-	{
+	public function index(){
 		$userModel = new \App\Models\Mdl_admin();
 		$tokoModel = new \App\Models\Mdl_data_toko();
 		$jumlah_user = $userModel->countAll();
 		$form_validation = \Config\Services::validation();
-		if ($this->_make_sure_is_admin()) {
+		if ($this->_make_sure_is_login()) {
 			//login == true
+			$this->_make_sure_is_admin();
 			$data['title'] = "Dashboard";
+			//kode dalam Dashboard
+
+
+			//end kode Dashboard
 			echo view('admin/index.php', $data);
 			//end login == true
 		}else{
@@ -73,6 +77,15 @@ class Admin extends BaseController
 			//login
 		} //tutup admin login = false
 	}
+	public function barang(){
+		if ($this->_make_sure_is_login()) {
+			$data['title'] = "Data Barang";
+			return view('admin/barang.php', $data);
+		}else {
+			$this->session->destroy();
+			return redirect()->to(site_url().'index.php/admin');
+		}
+	}
 	public function login($username,$password){
 		$userModel = new \App\Models\Mdl_admin();
 		$admin_data = $userModel->get_cipherpass($username);
@@ -95,15 +108,18 @@ class Admin extends BaseController
 	function register(){
 
 	}
-	function _make_sure_is_admin(){
+	function _make_sure_is_login(){
 		if (isset($_SESSION['login_data'])) {
 			return TRUE;
 		}else{
 			return FALSE;
 		}
 	}
-	function _level_admin(){
-
+	function _make_sure_is_admin(){
+		if ($this->_make_sure_is_login() != TRUE) {
+			$this->session->destroy();
+			return redirect()->to(site_url().'index.php/admin');
+		}
 	}
 	function logout(){
 		$this->session->destroy();
